@@ -4,6 +4,7 @@ import logo from '../logo.svg';
 import DeviceStore from '../stores/DeviceStore';
 import * as DeviceActions from '../actions/DeviceActions';
 import * as NotificationActions from '../actions/NotificationActions';
+import SchedulePicker from '../components/SchedulePicker/SchedulePicker';
 
 class DeviceConnector extends Component {
     constructor(props) {
@@ -77,6 +78,8 @@ class DeviceConnector extends Component {
                 >
                     Read
                 </button>
+
+                <SchedulePicker />
 
                 {scheduleComponents}
 

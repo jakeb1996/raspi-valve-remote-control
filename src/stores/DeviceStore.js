@@ -16,7 +16,6 @@ class DeviceStore extends EventEmitter {
     }
 
     addDevice(id) {
-		var that = this;
         this.emit('NOTIFICATION_SEND');
         axios.get(API.baseUrl + id)
             .then(function(response) {

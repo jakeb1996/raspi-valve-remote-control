@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 //import './App.css';
 //import DeviceConnector from './pages/DeviceConnector';
-//import 'react-bootstrap';
+import 'react-bootstrap';
 import NotificationSystem from 'react-notification-system';
 import NotificationStore from './stores/NotificationStore';
 import Routes from './routes';
