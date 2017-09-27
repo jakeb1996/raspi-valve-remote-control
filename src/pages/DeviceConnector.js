@@ -4,7 +4,6 @@ import logo from '../logo.svg';
 import DeviceStore from '../stores/DeviceStore';
 import * as DeviceActions from '../actions/DeviceActions';
 import * as NotificationActions from '../actions/NotificationActions';
-import SchedulePicker from '../components/SchedulePicker/SchedulePicker';
 
 class DeviceConnector extends Component {
     constructor(props) {
@@ -26,16 +25,10 @@ class DeviceConnector extends Component {
         });
 
         DeviceStore.on('DEVICE_NO_MATCH', () => {
-            console.log('device no match');
             NotificationActions.newNotification('test');
-            /*this.props.notify.addNotification({
-                message: 'Uh oh, there is no device for this ID!',
-                level: 'warning'
-            });*/
         });
 
         DeviceStore.on('DEVICE_ERROR', () => {
-            console.log('device error');
             this.props.notify.addNotification({
                 message: 'Hmm, the service could not be reached...',
                 level: 'error'
@@ -45,7 +38,6 @@ class DeviceConnector extends Component {
 
     componentDidMount() {
         this.setState({ schedules: DeviceStore.getAll() });
-        //this.NotificationSystem = this.refs.notificationSystem;
     }
 
     deviceIdUpdate(e) {
@@ -59,30 +51,35 @@ class DeviceConnector extends Component {
     }
 
     render() {
-        const scheduleComponents = this.state.devices.map((schedule, index) =>
-            <div key={index}>{schedule.name}</div>
-        );
-
         return (
-            <div className="App-header">
-                <img src={logo} className="App-logo" alt="logo"/><br />
-                <input
-                    className="txtCreateDevice"
-                    alt="Device ID"
-                    onChange={this.deviceIdUpdate}
-                    value={this.state.deviceWriteKey}
-                />
-                <button className="btnReadDevice"
-                        alt="Read Device"
-                        onClick={this.readDeviceStore}
-                >
-                    Read
-                </button>
+            <div>
 
-                <SchedulePicker />
+                <div className="logo">
+                    <img src={logo} className="App-logo" alt="logo"/><br />
+                </div>
 
-                {scheduleComponents}
-
+                <div className="row">
+                    <form className="col s12">
+                        <div className="row">
+                            <div className="input-field col s12">
+                                <input
+                                    placeholder="Device Identifier"
+                                    id="txtDeviceId"
+                                    type="text"
+                                    className="validate"
+                                    onChange={this.deviceIdUpdate}
+                                    value={this.state.deviceWriteKey}
+                                />
+                                <label for="txtDeviceId">Device Identifier</label>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <a className="waves-effect waves-light btn col s12" onClick={this.readDeviceStore}>
+                                <i className="material-icons right">fingerprint</i>Connect
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
 
         );

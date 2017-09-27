@@ -26,7 +26,7 @@ class App extends Component {
 
     componentWillMount() {
         NotificationStore.on('NOTIFICATION_SENT', (notification) => {
-            //console.log(notification.type);
+            notification.position='tc';
             this.refs.notificationSystem.addNotification(notification);
         });
     }

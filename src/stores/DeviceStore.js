@@ -16,14 +16,18 @@ class DeviceStore extends EventEmitter {
     }
 
     addDevice(id) {
-        this.emit('NOTIFICATION_SEND');
         axios.get(API.baseUrl + id)
-            .then(function(response) {
+            .then(function() {
                 dispatcher.dispatch({
 					type: "NOTIFICATION_SEND",
 					level: "success",
-					message: 'Connecting...'
+					message: 'Connected'
 				});
+
+                this.devices.push({
+                    key: id,
+                    id: id
+                });
             })
             .catch(function(error) {
                 if (error.response) {
@@ -42,11 +46,6 @@ class DeviceStore extends EventEmitter {
 						});
                 }
             });
-
-        this.devices.push({
-            key: id,
-            id: id
-        });
     }
 
     dispatcherHandler(action) {

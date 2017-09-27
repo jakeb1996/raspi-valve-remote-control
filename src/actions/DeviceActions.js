@@ -6,9 +6,3 @@ export function addDevice(id) {
         id: id,
     });
 }
-
-/*
-export function removeDevice(id) {
-    // Not implemented
-}
-*/
