@@ -1,13 +1,14 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
     selectSubreddit,
     fetchPostsIfNeeded,
     invalidateSubreddit
-} from '../actions'
-import Picker from '../components/Picker'
-import Posts from '../components/Posts'
+} from '../actions';
+import Picker from '../components/Picker';
+import logo from '../logo.svg';
+import Posts from '../components/Posts';
 
 class AsyncApp extends Component {
     constructor(props) {
@@ -45,6 +46,34 @@ class AsyncApp extends Component {
         const { selectedSubreddit, posts, isFetching, lastUpdated } = this.props
         return (
             <div>
+                <div>
+
+                    <div className="logo">
+                        <img src={logo} className="App-logo" alt="logo"/><br />
+                    </div>
+
+                    <div className="row">
+                        <form className="col s12">
+                            <div className="row">
+                                <div className="input-field col s12">
+                                    <input
+                                        placeholder="Device Identifier"
+                                        id="txtDeviceId"
+                                        type="text"
+                                        className="validate"
+                                    />
+                                    <label for="txtDeviceId">Device Identifier</label>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <a className="waves-effect waves-light btn col s12" onClick={this.readDeviceStore}>
+                                    <i className="material-icons right">fingerprint</i>Connect
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
                 <Picker
                     value={selectedSubreddit}
                     onChange={this.handleChange}
