@@ -18,32 +18,24 @@ class AsyncApp extends Component {
     }
 
     componentDidMount() {
-        const { dispatch, selectedSubreddit } = this.props
-        dispatch(fetchPostsIfNeeded(selectedSubreddit))
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.selectedSubreddit !== prevProps.selectedSubreddit) {
-            const { dispatch, selectedSubreddit } = this.props
-            dispatch(fetchPostsIfNeeded(selectedSubreddit))
-        }
+        const { dispatch, selectedSubreddit } = this.props;
     }
 
     handleChange(nextSubreddit) {
-        this.props.dispatch(selectSubreddit(nextSubreddit))
+        this.props.dispatch(selectSubreddit(nextSubreddit));
         this.props.dispatch(fetchPostsIfNeeded(nextSubreddit))
     }
 
     handleRefreshClick(e) {
-        e.preventDefault()
+        e.preventDefault();
 
-        const { dispatch, selectedSubreddit } = this.props
-        dispatch(invalidateSubreddit(selectedSubreddit))
+        const { dispatch, selectedSubreddit } = this.props;
+        dispatch(invalidateSubreddit(selectedSubreddit));
         dispatch(fetchPostsIfNeeded(selectedSubreddit))
     }
 
     render() {
-        const { selectedSubreddit, posts, isFetching, lastUpdated } = this.props
+        const { posts, isFetching } = this.props;
         return (
             <div>
                 <div>
@@ -53,38 +45,14 @@ class AsyncApp extends Component {
                     </div>
 
                     <div className="row">
-                        <form className="col s12">
-                            <div className="row">
-                                <div className="input-field col s12">
-                                    <input
-                                        placeholder="Device Identifier"
-                                        id="txtDeviceId"
-                                        type="text"
-                                        className="validate"
-                                    />
-                                    <label for="txtDeviceId">Device Identifier</label>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <a className="waves-effect waves-light btn col s12" onClick={this.readDeviceStore}>
-                                    <i className="material-icons right">fingerprint</i>Connect
-                                </a>
-                            </div>
-                        </form>
+                        <Picker
+                            onChange={this.handleChange}
+                        />
                     </div>
                 </div>
 
-                <Picker
-                    value={selectedSubreddit}
-                    onChange={this.handleChange}
-                    options={['reactjs', 'frontend']}
-                />
+
                 <p>
-                    {lastUpdated &&
-                    <span>
-              Last updated at {new Date(lastUpdated).toLocaleTimeString()}.
-                        {' '}
-            </span>}
                     {!isFetching &&
                     <a href="#" onClick={this.handleRefreshClick}>
                         Refresh
@@ -102,7 +70,6 @@ class AsyncApp extends Component {
 }
 
 AsyncApp.propTypes = {
-    selectedSubreddit: PropTypes.string.isRequired,
     posts: PropTypes.array.isRequired,
     isFetching: PropTypes.bool.isRequired,
     lastUpdated: PropTypes.number,
