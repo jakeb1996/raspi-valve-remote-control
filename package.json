@@ -1,0 +1,23 @@
+{
+  "name": "joshsgardenonmandy",
+  "version": "1.0.0",
+  "description": "joshsgardenonmandy.com",
+  "main": "jgm.js",
+  "dependencies": {
+    "prettycron": "^0.10.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jakeb1996/joshsgardenonmandy.git"
+  },
+  "author": "Jake Bradford",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jakeb1996/joshsgardenonmandy/issues"
+  },
+  "homepage": "https://github.com/jakeb1996/joshsgardenonmandy#readme"
+}
