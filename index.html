@@ -1,54 +1,135 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="theme-color" content="#000000">
-    <!--
-      manifest.json provides metadata used when your web app is added to the
-      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
-    -->
     <link rel="manifest" href="manifest.json">
     <link rel="shortcut icon" href="favicon.ico">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
+    <title>joshsgardenonmandy.com</title>
 
-    <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"  media="screen,projection"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=0">
-  </head>
-  <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <div class="container">
-      <div id="root"></div>
+    <link type="text/css" rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
+          media="screen,projection"/>
+    <link type="text/css" rel="stylesheet"
+          href="jgm.css"
+          media="screen,projection"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=0">
+</head>
+<body>
+<noscript>
+    You need to enable JavaScript to run this app.
+</noscript>
+
+<div class="container">
+    <div class="valign-wrapper" id="pnlDeviceConnector">
+        <div class="">
+            <div class="logo">
+                <img style="width:100%"
+                     src="https://static1.squarespace.com/static/5532346ee4b0edee9945fccf/t/5551c1c9e4b0fe66a267ce88/1431421387487/vdB+Tree+and+Garden+Care+logo"
+                     class="App-logo" alt="logo"/><br/>
+            </div>
+
+            <div class="row">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input placeholder="Device Identifier" id="txtDeviceId" type="text" class="validate"/>
+                            <label for="txtDeviceId">Device Identifier</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <a class="waves-effect waves-light btn col s12" id="btnDeviceConnect">
+                            <i class="material-icons right">fingerprint</i>Connect
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+    <div id="pnlScheduleList">
+        <div class="row">
+            <div class="col s12">
+                <h1>Schedule List</h1>
+            </div>
+        </div>
+        <div class="row">
+            <a class="waves-effect waves-light btn col s5 blue lighten-2" id="btnNewSchedule">
+                <i class="material-icons right">create</i>New Schedule
+            </a>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+            <a class="waves-effect waves-light btn col s6 pink lighten-2" id="btnUpdateSchedule">
+                <i class="material-icons right">cloud_upload</i>Upload
+            </a>
+        </div>
+        <div class="row" id="scheduleDisplay">
 
-    <!--Import jQuery before materialize.js-->
-    <script
-            src="https://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-  </body>
+        </div>
+    </div>
+
+    <div id="pnlScheduleModify">
+        <div class="row">
+            <div class="col s12">
+                <div class="row">
+                    <h4>Schedule Modifier</h4>
+                </div>
+
+                <div class="row">
+                    <label for="txtStartTime">Start time</label>
+                    <input id="txtStartTime" type="time" />
+                </div>
+                <div class="row">
+                    <label for="txtRunTime">Run time (minutes)</label>
+                    <input id="txtRunTime" type="number" />
+                </div>
+                <div class="row">
+                    <label>Day of week</label>
+                    <select multiple class="browser-default" id="lstDaysWeek">
+                        <option value="" disabled>Choose your option</option>
+                        <option value="0">Sunday</option>
+                        <option value="1">Monday</option>
+                        <option value="2">Tuesday</option>
+                        <option value="3">Wednesday</option>
+                        <option value="4">Thursday</option>
+                        <option value="5">Friday</option>
+                        <option value="6">Saturday</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <label>Month</label>
+                    <select multiple class="browser-default" id="lstMonths">
+                        <option value="" disabled>Choose your option</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <a class="waves-effect waves-light btn col s12" id="btnSaveSchedule">
+                        <i class="material-icons right">save</i>Save Schedule
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<script type="text/javascript" src="jgm.js"></script>
+</body>
 </html>
