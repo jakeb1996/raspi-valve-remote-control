@@ -1,3 +1,7 @@
+var cronParser = require('cron-parser');
+var moment = require('moment');
+var cronstrue = require('cronstrue');
+
 $(document).ready(function() {
     /*constructor(props) {
            super(props);
@@ -14,10 +18,18 @@ $(document).ready(function() {
     var pnlDeviceConnector = $('#pnlDeviceConnector');
     var pnlScheduleList = $('#pnlScheduleList');
     var pnlScheduleModify = $('#pnlScheduleModify');
+    var pnlSchedulePreview = $('#pnlSchedulePreview');
 
     var btnDeviceConnect = $('#btnDeviceConnect');
     var btnScheduleSave = $('#btnSaveSchedule');
+    var btnSchedulePreview = $('#btnPreviewSchedule');
     var btnNewSchedule = $('#btnNewSchedule');
+    var btnScheduleUpload = $('#btnUploadSchedule');
+
+    var txtStartTime = $('#txtStartTime');
+    var txtRunTime = $('#txtRunTime');
+    var lstDaysWeek = $('#lstDaysWeek');
+    var lstMonths = $('#lstMonths');
 
     var apiBase = "https://mossbyte.com/api/v1/";
     var appKey = "a28061dc-3a9a-4549-9d6b-0b5354e0af99";
@@ -25,9 +37,9 @@ $(document).ready(function() {
 
     var schedules = [];
 
-    pnlDeviceConnector.hide();
+    pnlDeviceConnector.show();
     pnlScheduleList.hide();
-    pnlScheduleModify.show();
+    pnlScheduleModify.hide();
 
     btnDeviceConnect.on('click', function() {
         var connectDeviceId = $('#txtDeviceId');
@@ -36,86 +48,171 @@ $(document).ready(function() {
             $.get(apiBase + connectDeviceId.val())
                 .done(function(data) {
                     deviceId = connectDeviceId.val();
+
+                    schedules = data.data.mossByte.object[0];
+                    console.log(schedules);
+                    updateScheduleListDisplay();
+
                     pnlScheduleList.show();
                     pnlDeviceConnector.hide();
                 })
                 .fail(function(data) {
-                    console.log('failed to find device');
+                    Materialize.toast('Hmm, that device could not be found', 4000);
                 })
                 .always(function(data) {
                     console.log(data);
                 });
         } else {
-            console.log('no device ID specified...');
+            Materialize.toast('You need to specify the device ID...', 4000);
         }
     });
 
     btnScheduleSave.on('click', function() {
-        var txtStartTime = $('#txtStartTime');
-        var txtRunTime = $('#txtRunTime');
-        var lstDaysWeek = $('#lstDaysWeek');
-        var lstMonths = $('#lstMonths');
-
-        var startTimeRegex = new RegExp('([01]?[0-9]|2[0-3]):[0-5][0-9]');
-        var runTimeRegex = new RegExp('^\\d+$');
-
-        var passedValidation = true;
-
-        if (!startTimeRegex.test(txtStartTime.val())) {
-            passedValidation = false;
-            txtStartTime.addClass('invalid');
-        }
-
-        if (!runTimeRegex.test(txtRunTime.val())) {
-            passedValidation = false;
-            txtRunTime.addClass('invalid');
-        }
-
-        if (!lstDaysWeek.val().length >= 1) {
-            passedValidation = false;
-            lstDaysWeek.addClass('invalid');
-        }
-
-        if (!lstMonths.val().length >= 1) {
-            passedValidation = false;
-            lstMonths.addClass('invalid');
-        }
+        var passedValidation = scheduleValidation();
 
         if (passedValidation) {
-            createSchedule(
+            var schedule = createSchedule(
                 txtStartTime.val(),
                 txtRunTime.val(),
                 lstDaysWeek.val(),
                 lstMonths.val()
             );
+
+            pnlScheduleModify.hide();
+            updateScheduleListDisplay();
+            pnlScheduleList.show();
         }
 
-        pnlScheduleModify.hide();
-        updateScheduleListDisplay();
-        pnlScheduleList.show();
+
     });
+
+    btnSchedulePreview.on('click', function() {
+        if (scheduleValidation()) {
+            try {
+                pnlSchedulePreview.empty();
+                pnlSchedulePreview.hide(200);
+                var cron = cronParser.parseExpression(constructCronExpression(txtStartTime.val(), lstDaysWeek.val(), lstMonths.val()));
+                for (var i = 0; i < 10; i++) {
+                    var datetime = new Date(cron.next().toString());
+                    pnlSchedulePreview.append(moment(datetime).format('MMMM Do YYYY h:mm a') + '<br />');
+                }
+                pnlSchedulePreview.show(200);
+            } catch (err) {
+                pnlSchedulePreview.append('<br />Failed to generate preview');
+                console.log(err);
+            }
+        }
+    });
+
+    var scheduleValidation = function() {
+        var startTimeRegex = new RegExp('([01]?[0-9]|2[0-3]):[0-5][0-9]');
+        var runTimeRegex = new RegExp('^\\d+$');
+
+        var passedValidation = true;
+
+        // Validate start time
+        if (!startTimeRegex.test(txtStartTime.val())) {
+            passedValidation = false;
+            txtStartTime.addClass('invalid');
+        } else {
+            txtStartTime.removeClass('invalid');
+        }
+
+        // Validate duration
+        if (!runTimeRegex.test(txtRunTime.val())) {
+            passedValidation = false;
+            txtRunTime.addClass('invalid');
+        } else {
+            txtRunTime.removeClass('invalid');
+        }
+
+        // Validate the list of days selected
+        if (!lstDaysWeek.val().length >= 1) {
+            passedValidation = false;
+            lstDaysWeek.addClass('invalid');
+        } else {
+            lstDaysWeek.removeClass('invalid');
+        }
+
+        // Validate the list of months selected
+        if (!lstMonths.val().length >= 1) {
+            passedValidation = false;
+            lstMonths.addClass('invalid');
+        } else {
+            lstMonths.removeClass('invalid');
+        }
+
+        return passedValidation;
+    }
 
     btnNewSchedule.on('click', function() {
         pnlScheduleList.hide();
         pnlScheduleModify.show();
     });
 
+    btnScheduleUpload.on('click', function() {
+        uploadSchedule();
+    })
+
     var updateScheduleListDisplay = function() {
-        $('#scheduleDisplay').empty();
-        schedules.map(function() {
-            $('#scheduleDisplay').append('<div>test</div>');
+        //https://stackoverflow.com/questions/18673860/defining-a-html-template-to-append-using-jquery
+        $('#scheduleDisplay').hide(200);
+        $('#scheduleDisplay').empty().append('<ul>').addClass('collection');
+        schedules.forEach(function (schedule) {
+            var cronExp = constructCronExpression(schedule.startTime, schedule.daysWeek, schedule.months);
+            $('#scheduleDisplay ul').append('<li class="collection-item"><div>'+cronstrue.toString(cronExp) + ' (' + schedule.runTime + ' mins)<a href="#!" class="secondary-content"><i class="material-icons">delete_forever</i></a></div></li>');
         })
+        $('#scheduleDisplay').show(200);
     };
 
+    var constructCronExpression = function(txtStartTime, lstDaysWeek, lstMonths) {
+        var startTimeSplit = txtStartTime.split(':');
+        var lstDaysWeek = lstDaysWeek.join(',');
+        var lstMonths = lstMonths.join(',');
+        return (startTimeSplit[1] + ' ' + startTimeSplit[0] + ' * ' + lstMonths + ' ' + lstDaysWeek);
+    }
+
     var createSchedule = function(startTime, runTime, daysWeek, months) {
-        schedules.push({
+        var schedule = {
             id: Date.now(),
             startTime: startTime,
             runTime: runTime,
             daysWeek: daysWeek,
             months: months
-        })
+        };
+
+        schedules.push(schedule);
+
+        return schedule.id;
     };
+
+    var uploadSchedule = function() {
+        if (deviceId != '') {
+            var msgUploading = Materialize.toast('Uploading...', 4000);
+            $.ajax({
+                type: 'PUT',
+                url: apiBase + deviceId,
+                data: {
+                    object: [
+                        schedules
+                    ]
+                }
+            })
+                .done(function(data) {
+                    msgUploading.remove();
+                    Materialize.toast('Uploaded!', 4000);
+                })
+                .fail(function(data) {
+                    msgUploading.remove();
+                    Materialize.toast('Oops, something went wrong!', 4000)
+                })
+                .always(function(data) {
+                    console.log(data);
+                });
+        } else {
+             Materialize.toast('You have not yet specified a device...', 4000)
+        }
+    }
 
     removeSchedule = function(id) {
         schedules = $.grep(schedules, function(e){

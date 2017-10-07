@@ -57,13 +57,16 @@
             </div>
         </div>
         <div class="row">
-            <a class="waves-effect waves-light btn col s5 blue lighten-2" id="btnNewSchedule">
-                <i class="material-icons right">create</i>New Schedule
-            </a>
-
-            <a class="waves-effect waves-light btn col s6 pink lighten-2" id="btnUpdateSchedule">
-                <i class="material-icons right">cloud_upload</i>Upload
-            </a>
+            <div class="col s6">
+                <a class="waves-effect waves-light btn col s12 blue lighten-2" id="btnNewSchedule">
+                    <i class="material-icons right">create</i>New Schedule
+                </a>
+            </div>
+            <div class="col s6">
+                <a class="waves-effect waves-light btn col s12 pink lighten-2" id="btnUploadSchedule">
+                    <i class="material-icons right">cloud_upload</i>Upload
+                </a>
+            </div>
         </div>
         <div class="row" id="scheduleDisplay">
 
@@ -117,9 +120,22 @@
                     </select>
                 </div>
                 <div class="row">
-                    <a class="waves-effect waves-light btn col s12" id="btnSaveSchedule">
-                        <i class="material-icons right">save</i>Save Schedule
-                    </a>
+                    <label>Schedule Preview</label>
+                    <div id="pnlSchedulePreview">
+                        <i>Click Preview Schedule</i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s6">
+                        <a class="waves-effect waves-light btn col s12 grey" id="btnPreviewSchedule">
+                            <i class="material-icons right">remove_red_eye</i>Preview Schedule
+                        </a>
+                    </div>
+                    <div class="col s6">
+                        <a class="waves-effect waves-light btn col s12" id="btnSaveSchedule">
+                            <i class="material-icons right">save</i>Save Schedule
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -130,6 +146,6 @@
         integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-<script type="text/javascript" src="jgm.js"></script>
+<script type="text/javascript" src="main.js"></script>
 </body>
 </html>
