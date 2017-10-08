@@ -1,9 +1,9 @@
 const webpack = require('webpack');
 
 let config = {
-    entry: './jgm.js',
+    entry: './src/jgm.js',
     output: {
-        filename: 'main.js'
+        filename: 'public/main.js'
     },
     watch: true
 }
