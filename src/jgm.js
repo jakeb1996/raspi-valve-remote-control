@@ -25,14 +25,16 @@ $(document).ready(function() {
     var btnSchedulePreview = $('#btnPreviewSchedule');
     var btnNewSchedule = $('#btnNewSchedule');
     var btnScheduleUpload = $('#btnUploadSchedule');
+    var btnDisconnect = $('#btnDisconnect');
+    var btnScheduleBack = $('#btnScheduleBack');
 
     var txtStartTime = $('#txtStartTime');
     var txtRunTime = $('#txtRunTime');
+    var txtConnectDeviceId = $('#txtConnectDeviceId');
     var lstDaysWeek = $('#lstDaysWeek');
     var lstMonths = $('#lstMonths');
 
     var apiBase = "https://mossbyte.com/api/v1/";
-    var appKey = "a28061dc-3a9a-4549-9d6b-0b5354e0af99";
     var deviceId = "";
 
     var schedules = [];
@@ -42,12 +44,10 @@ $(document).ready(function() {
     pnlScheduleModify.hide();
 
     btnDeviceConnect.on('click', function() {
-        var connectDeviceId = $('#txtDeviceId');
-
-        if (connectDeviceId.val() != '') {
-            $.get(apiBase + connectDeviceId.val())
+        if (txtConnectDeviceId.val() != '') {
+            $.get(apiBase + txtConnectDeviceId.val())
                 .done(function(data) {
-                    deviceId = connectDeviceId.val();
+                    deviceId = txtConnectDeviceId.val();
 
                     schedules = data.data.mossByte.object[0];
                     console.log(schedules);
@@ -67,6 +67,14 @@ $(document).ready(function() {
         }
     });
 
+    btnDisconnect.on('click', function() {
+        pnlDeviceConnector.show();
+        pnlScheduleList.hide();
+        pnlScheduleModify.hide();
+        deviceId = "";
+        schedules = [];
+    });
+
     btnScheduleSave.on('click', function() {
         var passedValidation = scheduleValidation();
 
@@ -82,8 +90,17 @@ $(document).ready(function() {
             updateScheduleListDisplay();
             pnlScheduleList.show();
         }
+    });
 
+    btnScheduleBack.on('click', function() {
+        pnlDeviceConnector.hide();
+        pnlScheduleList.show();
+        pnlScheduleModify.hide();
 
+        txtStartTime.val("");
+        txtRunTime.val("");
+        lstDaysWeek.val("");
+        lstMonths.val("");
     });
 
     btnSchedulePreview.on('click', function() {
@@ -162,6 +179,12 @@ $(document).ready(function() {
             var cronExp = constructCronExpression(schedule.startTime, schedule.daysWeek, schedule.months);
             $('#scheduleDisplay ul').append('<li class="collection-item"><div>'+cronstrue.toString(cronExp) + ' (' + schedule.runTime + ' mins)<a href="#!" class="secondary-content"><i class="material-icons">delete_forever</i></a></div></li>');
         })
+
+        $('#scheduleDisplay ul li div a').on('click', function() {
+            schedules.splice($(this.parentNode.parentNode).index(), 1);
+            updateScheduleListDisplay();
+        });
+
         $('#scheduleDisplay').show(200);
     };
 

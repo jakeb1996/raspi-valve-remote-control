@@ -9,6 +9,7 @@
     <title>JGM Control Panel</title>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
     <link type="text/css" rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
           media="screen,projection"/>
@@ -24,20 +25,18 @@
 </noscript>
 
 <div class="container">
-    <div class="valign-wrapper" id="pnlDeviceConnector">
-        <div class="">
+    <div class="valign-wrapper pnlDeviceConnector" id="pnlDeviceConnector">
+        <div>
             <div class="logo">
-                <img style="width:100%"
-                     src="https://static1.squarespace.com/static/5532346ee4b0edee9945fccf/t/5551c1c9e4b0fe66a267ce88/1431421387487/vdB+Tree+and+Garden+Care+logo"
-                     class="App-logo" alt="logo"/><br/>
+                JoshsGardenOnMandy.com
             </div>
 
             <div class="row">
                 <form class="col s12">
                     <div class="row">
                         <div class="input-field col s12">
-                            <input placeholder="Device Identifier" id="txtDeviceId" type="text" class="validate"/>
-                            <label for="txtDeviceId">Device Identifier</label>
+                            <input placeholder="Device Identifier" id="txtConnectDeviceId" type="text" class="validate"/>
+                            <label for="txtConnectDeviceId">Device Identifier</label>
                         </div>
                     </div>
                     <div class="row">
@@ -46,6 +45,10 @@
                         </a>
                     </div>
                 </form>
+            </div>
+
+            <div class="version">
+                v1.0.0
             </div>
         </div>
     </div>
@@ -57,14 +60,19 @@
             </div>
         </div>
         <div class="row">
-            <div class="col s6">
+            <div class="col s12 m4">
                 <a class="waves-effect waves-light btn col s12 blue lighten-2" id="btnNewSchedule">
                     <i class="material-icons right">create</i>New Schedule
                 </a>
             </div>
-            <div class="col s6">
+            <div class="col s12 m4">
                 <a class="waves-effect waves-light btn col s12 pink lighten-2" id="btnUploadSchedule">
                     <i class="material-icons right">cloud_upload</i>Upload
+                </a>
+            </div>
+            <div class="col s12 m4">
+                <a class="waves-effect waves-light btn col s12 grey lighten-1" id="btnDisconnect">
+                    <i class="material-icons right">cloud_off</i>Disconnect
                 </a>
             </div>
         </div>
@@ -76,9 +84,18 @@
     <div id="pnlScheduleModify">
         <div class="row">
             <div class="col s12">
-                <div class="row">
-                    <h4 class=">Schedule Modifier</h4>
-                </div>
+                <h1>Create Schedule</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <a class="waves-effect waves-light btn col s12 grey lighten-1" id="btnScheduleBack">
+                    <i class="material-icons right">arrow_back</i>Cancel
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
 
                 <div class="row">
                     <label for="txtStartTime">Start time</label>
@@ -126,12 +143,12 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col s6">
+                    <div class="col s12 m6">
                         <a class="waves-effect waves-light btn col s12 grey" id="btnPreviewSchedule">
                             <i class="material-icons right">remove_red_eye</i>Preview Schedule
                         </a>
                     </div>
-                    <div class="col s6">
+                    <div class="col s12 m6">
                         <a class="waves-effect waves-light btn col s12" id="btnSaveSchedule">
                             <i class="material-icons right">save</i>Save Schedule
                         </a>
