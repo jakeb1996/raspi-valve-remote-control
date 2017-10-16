@@ -1,0 +1,38 @@
+.container {
+    background-color: rgba(255,255,255,0.85);
+    border: 2px solid white;
+    border-radius: 2px;
+    padding: 1.5em;
+}
+
+.pnlDeviceConnector div:first-child {
+    width: 100%;
+}
+
+body {
+    background-image: url(background.jpeg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    padding: 1em;
+}
+
+.logo, h1 {
+    font-family: 'Amatic SC', cursive;;
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 1em;
+    font-weight: bold;
+}
+
+@media screen and (max-width: 600px) {
+    .s12 {
+        margin-bottom: 0.5em;
+    }
+}
+
+.version {
+    color: grey;
+    text-align: center;
+    font-size: 0.5em;
+}

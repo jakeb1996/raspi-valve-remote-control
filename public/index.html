@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="theme-color" content="#000000">
+    <link rel="manifest" href="manifest.json">
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <title>JGM Control Panel</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
+    <link type="text/css" rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
+          media="screen,projection"/>
+    <link type="text/css" rel="stylesheet"
+          href="jgm.css"
+          media="screen,projection"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=0">
+</head>
+<body>
+<noscript>
+    You need to enable JavaScript to run this app.
+</noscript>
+
+<div class="container">
+    <div class="valign-wrapper pnlDeviceConnector" id="pnlDeviceConnector">
+        <div>
+            <div class="logo">
+                JoshsGardenOnMandy.com
+            </div>
+
+            <div class="row">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input placeholder="Device Identifier" id="txtConnectDeviceId" type="text" class="validate"/>
+                            <label for="txtConnectDeviceId">Device Identifier</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <a class="waves-effect waves-light btn col s12" id="btnDeviceConnect">
+                            <i class="material-icons right">fingerprint</i>Connect
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <div class="version">
+                v1.0.0
+            </div>
+        </div>
+    </div>
+
+    <div id="pnlScheduleList">
+        <div class="row">
+            <div class="col s12">
+                <h1>Schedule List</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 m4">
+                <a class="waves-effect waves-light btn col s12 blue lighten-2" id="btnNewSchedule">
+                    <i class="material-icons right">create</i>New Schedule
+                </a>
+            </div>
+            <div class="col s12 m4">
+                <a class="waves-effect waves-light btn col s12 pink lighten-2" id="btnUploadSchedule">
+                    <i class="material-icons right">cloud_upload</i>Upload
+                </a>
+            </div>
+            <div class="col s12 m4">
+                <a class="waves-effect waves-light btn col s12 grey lighten-1" id="btnDisconnect">
+                    <i class="material-icons right">cloud_off</i>Disconnect
+                </a>
+            </div>
+        </div>
+        <div class="row" id="scheduleDisplay">
+
+        </div>
+    </div>
+
+    <div id="pnlScheduleModify">
+        <div class="row">
+            <div class="col s12">
+                <h1>Create Schedule</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <a class="waves-effect waves-light btn col s12 grey lighten-1" id="btnScheduleBack">
+                    <i class="material-icons right">arrow_back</i>Cancel
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+
+                <div class="row">
+                    <label for="txtStartTime">Start time</label>
+                    <input id="txtStartTime" type="time" />
+                </div>
+                <div class="row">
+                    <label for="txtRunTime">Run time (minutes)</label>
+                    <input id="txtRunTime" type="number" />
+                </div>
+                <div class="row">
+                    <label>Day of week</label>
+                    <select multiple class="browser-default" id="lstDaysWeek">
+                        <option value="" disabled>Choose your option</option>
+                        <option value="0">Sunday</option>
+                        <option value="1">Monday</option>
+                        <option value="2">Tuesday</option>
+                        <option value="3">Wednesday</option>
+                        <option value="4">Thursday</option>
+                        <option value="5">Friday</option>
+                        <option value="6">Saturday</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <label>Month</label>
+                    <select multiple class="browser-default" id="lstMonths">
+                        <option value="" disabled>Choose your option</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <label>Schedule Preview</label>
+                    <div id="pnlSchedulePreview">
+                        <i>Click Preview Schedule</i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m6">
+                        <a class="waves-effect waves-light btn col s12 grey" id="btnPreviewSchedule">
+                            <i class="material-icons right">remove_red_eye</i>Preview Schedule
+                        </a>
+                    </div>
+                    <div class="col s12 m6">
+                        <a class="waves-effect waves-light btn col s12" id="btnSaveSchedule">
+                            <i class="material-icons right">save</i>Save Schedule
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<script type="text/javascript" src="main.js"></script>
+</body>
+</html>

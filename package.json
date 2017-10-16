@@ -1,0 +1,21 @@
+{
+  "name": "joshsgardenonmandy",
+  "version": "1.0.0",
+  "description": "joshsgardenonmandy.com",
+  "main": "jgm.js",
+  "dependencies": {
+    "cron-parser": "^2.4.2",
+    "cronstrue": "^0.10.10",
+    "moment": "^2.18.1"
+  },
+  "devDependencies": {
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.9.1"
+  },
+  "scripts": {
+    "dev": "webpack-dev-server --env.development",
+    "prod": "webpack --env.production"
+  },
+  "author": "Jake Bradford",
+  "license": "ISC"
+}
