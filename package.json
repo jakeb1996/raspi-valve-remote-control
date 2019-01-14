@@ -1,7 +1,7 @@
 {
-  "name": "joshsgardenonmandy",
+  "name": "raspi-valve-remote-control",
   "version": "1.0.0",
-  "description": "joshsgardenonmandy.com",
+  "description": "Raspi Valve Remote Control",
   "main": "jgm.js",
   "dependencies": {
     "cron-parser": "^2.4.2",
